@@ -1,0 +1,106 @@
+#
+# Recommend use for static configuration that does not change between environments.
+#
+# See also config/application.properties
+#
+isis:
+
+  applib:
+    annotation:
+      action:
+        explicit: true
+        command-publishing: ignore_safe
+        execution-publishing: all
+      action-layout:
+        css-class:
+          patterns:
+            delete.*:btn-danger,
+            discard.*:btn-warning,
+            remove.*:btn-warning
+      property:
+        command-publishing: all
+        execution-publishing: all
+      domain-object:
+        editing: false
+        entity-change-publishing: all
+
+  core:
+    meta-model:
+      introspector:
+        lock-after-full-introspection: true
+      validator:
+        allow-deprecated: false
+        no-params-only: true
+        explicit-object-type: true
+
+    runtime-services:
+      translation:
+        po:
+          mode: disabled
+
+  viewer:
+    wicket:
+      application:
+        about: Simple App
+        brand-logo-header: images/apache-isis/logo-48x48.png
+        css: css/application.css
+        favicon-url: images/favicon.png
+        js: scripts/application.js
+        menubars-layout-xml: menubars.layout.xml
+        name: Simple App
+        # https://stackoverflow.com/a/38983935/56880
+        version: @project.version@
+
+      credit:
+        - url:  http://isis.apache.org
+          image: images/apache-isis/logo-48x48.png
+          name: Apache Isis
+
+      bookmarked-pages:
+        show-chooser: true
+        show-drop-down-on-footer: true
+
+      max-title-length-in-standalone-tables: 0
+      max-title-length-in-parented-tables: 0
+
+      themes:
+        show-chooser: true
+
+  testing:
+    fixtures:
+      fixture-scripts-specification:
+        context-class: domainapp.webapp.application.fixture.scenarios.DomainAppDemo
+        run-script-default: domainapp.webapp.application.fixture.scenarios.DomainAppDemo
+        recreate: domainapp.webapp.application.fixture.scenarios.DomainAppDemo
+        non-persisted-objects-strategy: persist
+        multiple-execution-strategy: execute
+
+eclipselink:
+  # if enabled, then must be run with JVM arg:
+  # -javaagent:lib/spring-instrument-5.3.8.jar
+  weaving: false
+  # if weaving subproperties are required, then specify all eclipselink.weaving
+  # properties using application.properties instead (it's not possible to
+  # specify both eclipselink.weaving property and its subproperties using yaml syntax)
+
+resteasy:
+  jaxrs:
+    app:
+      registration: beans
+    defaultPath: "/restful"
+
+server:
+  max-http-header-size: 16KB
+
+spring:
+  banner:
+    location: banner.txt
+
+  quartz:
+    job-store-type: memory
+
+management:
+  endpoint:
+    health:
+      enabled: true
+
