@@ -44,7 +44,7 @@ public class PetOwners {
     }
 
 
-    @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
+    @Action(semantics = SemanticsOf.SAFE)
     public List<PetOwner> findByLastNameLike(
             @LastName final String lastName) {
         return repositoryService.allMatches(
