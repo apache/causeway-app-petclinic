@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.isis.app</groupId>
-        <artifactId>isis-app-starter-parent</artifactId>
-        <version>2.0.0-M6</version>
+        <groupId>org.apache.causeway.app</groupId>
+        <artifactId>causeway-app-starter-parent</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
         <relativePath/>
     </parent>
 
-    <groupId>org.apache.isis.tutorials</groupId>
+    <groupId>org.apache.causeway.tutorials</groupId>
     <artifactId>petclinic</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
@@ -19,8 +19,8 @@
     <packaging>pom</packaging>
 
     <properties>
-        <isis.version>2.0.0-M6</isis.version>
-        <java.version>11</java.version>
+        <causeway.version>2.0.0-SNAPSHOT</causeway.version>
+        <java.version>21</java.version>
         <maven-cucumber-reporting.version>5.3.0</maven-cucumber-reporting.version>
         <archunit.version>0.14.1</archunit.version>
         <skipBDD>${skipTests}</skipBDD>

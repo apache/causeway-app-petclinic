@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.services.factory.FactoryService;
-import org.apache.isis.applib.services.wrapper.WrapperFactory;
+import org.apache.causeway.applib.annotation.Action;
+import org.apache.causeway.applib.services.factory.FactoryService;
+import org.apache.causeway.applib.services.wrapper.WrapperFactory;
 
 import lombok.RequiredArgsConstructor;
 

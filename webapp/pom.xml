@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.isis.tutorials</groupId>
+        <groupId>org.apache.causeway.tutorials</groupId>
         <artifactId>petclinic</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
@@ -63,19 +63,19 @@
 
         <!-- isis -->
         <dependency>
-            <groupId>org.apache.isis.mavendeps</groupId>
-            <artifactId>isis-mavendeps-webapp</artifactId>
+            <groupId>org.apache.causeway.mavendeps</groupId>
+            <artifactId>causeway-mavendeps-webapp</artifactId>
             <type>pom</type>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.isis.security</groupId>
-            <artifactId>isis-security-shiro</artifactId>
+            <groupId>org.apache.causeway.security</groupId>
+            <artifactId>causeway-security-shiro</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.isis.persistence</groupId>
-            <artifactId>isis-persistence-jpa-eclipselink</artifactId>
+            <groupId>org.apache.causeway.persistence</groupId>
+            <artifactId>causeway-persistence-jpa-eclipselink</artifactId>
         </dependency>
 
         <dependency>
@@ -84,13 +84,13 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.isis.testing</groupId>
-            <artifactId>isis-testing-h2console-ui</artifactId>
+            <groupId>org.apache.causeway.testing</groupId>
+            <artifactId>causeway-testing-h2console-ui</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.isis.extensions</groupId>
-            <artifactId>isis-extensions-flyway-impl</artifactId>
+            <groupId>org.apache.causeway.extensions</groupId>
+            <artifactId>causeway-extensions-flyway-impl</artifactId>
         </dependency>
 
         <dependency>

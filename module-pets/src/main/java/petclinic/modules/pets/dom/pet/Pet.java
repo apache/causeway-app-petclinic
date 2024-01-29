@@ -2,6 +2,7 @@ package petclinic.modules.pets.dom.pet;
 
 import java.util.Comparator;
 
+import javax.inject.Named;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -17,13 +18,13 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.apache.isis.applib.annotation.DomainObject;
-import org.apache.isis.applib.annotation.DomainObjectLayout;
-import org.apache.isis.applib.annotation.Property;
-import org.apache.isis.applib.annotation.PropertyLayout;
-import org.apache.isis.applib.annotation.Publishing;
-import org.apache.isis.applib.jaxb.PersistentEntityAdapter;
-import org.apache.isis.persistence.jpa.applib.integration.IsisEntityListener;
+import org.apache.causeway.applib.annotation.DomainObject;
+import org.apache.causeway.applib.annotation.DomainObjectLayout;
+import org.apache.causeway.applib.annotation.Property;
+import org.apache.causeway.applib.annotation.PropertyLayout;
+import org.apache.causeway.applib.annotation.Publishing;
+import org.apache.causeway.applib.jaxb.PersistentEntityAdapter;
+import org.apache.causeway.persistence.jpa.applib.integration.CausewayEntityListener;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -45,8 +46,9 @@ import petclinic.modules.pets.types.PetName;
         @UniqueConstraint(name = "Pet__owner_name__UNQ", columnNames = {"owner_id", "name"})
     }
 )
-@EntityListeners(IsisEntityListener.class)
-@DomainObject(logicalTypeName = "pets.Pet", entityChangePublishing = Publishing.ENABLED)
+@EntityListeners(CausewayEntityListener.class)
+@Named("pets.Pet")
+@DomainObject(entityChangePublishing = Publishing.ENABLED)
 @DomainObjectLayout()
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @XmlJavaTypeAdapter(PersistentEntityAdapter.class)
@@ -91,6 +93,7 @@ public class Pet implements Comparable<Pet> {
     @PetName
     @Column(name = "name", length = FirstName.MAX_LEN, nullable = false)
     @Getter @Setter
+    @Property(maxLength = FirstName.MAX_LEN)
     @PropertyLayout(fieldSetId = "name", sequence = "2")
     private String name;
 

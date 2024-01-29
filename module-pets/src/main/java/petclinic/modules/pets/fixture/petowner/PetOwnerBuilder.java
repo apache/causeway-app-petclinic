@@ -2,7 +2,7 @@ package petclinic.modules.pets.fixture.petowner;
 
 import javax.inject.Inject;
 
-import org.apache.isis.testing.fixtures.applib.personas.BuilderScriptWithResult;
+import org.apache.causeway.testing.fixtures.applib.personas.BuilderScriptWithResult;
 
 import lombok.Getter;
 import lombok.Setter;

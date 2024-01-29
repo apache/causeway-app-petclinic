@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import org.apache.isis.applib.services.repository.RepositoryService;
+import org.apache.causeway.applib.services.repository.RepositoryService;
 
 import petclinic.modules.pets.dom.petowner.PetOwner;
 import petclinic.modules.pets.dom.petowner.PetOwner_delete;

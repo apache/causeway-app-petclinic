@@ -1,9 +1,10 @@
 package petclinic.modules.pets.fixture.petowner;
 
-import org.apache.isis.applib.services.registry.ServiceRegistry;
-import org.apache.isis.testing.fixtures.applib.personas.PersonaWithBuilderScript;
-import org.apache.isis.testing.fixtures.applib.personas.PersonaWithFinder;
-import org.apache.isis.testing.fixtures.applib.setup.PersonaEnumPersistAll;
+import org.apache.causeway.applib.services.registry.ServiceRegistry;
+import org.apache.causeway.testing.fixtures.applib.personas.Persona;
+import org.apache.causeway.testing.fixtures.applib.personas.PersonaWithBuilderScript;
+import org.apache.causeway.testing.fixtures.applib.personas.PersonaWithFinder;
+import org.apache.causeway.testing.fixtures.applib.setup.PersonaEnumPersistAll;
 
 import petclinic.modules.pets.dom.petowner.PetOwner;
 import petclinic.modules.pets.dom.petowner.PetOwners;
@@ -13,7 +14,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public enum PetOwner_persona
-implements PersonaWithBuilderScript<PetOwnerBuilder>, PersonaWithFinder<PetOwner> {
+implements Persona<PetOwner, PetOwnerBuilder> {
 
     JONES("Jones"),
     FARRELL("Farrell"),
@@ -41,7 +42,7 @@ implements PersonaWithBuilderScript<PetOwnerBuilder>, PersonaWithFinder<PetOwner
     }
 
     public static class PersistAll
-    extends PersonaEnumPersistAll<PetOwner_persona, PetOwner> {
+    extends PersonaEnumPersistAll<PetOwner, PetOwner_persona, PetOwnerBuilder> {
 
         public PersistAll() {
             super(PetOwner_persona.class);

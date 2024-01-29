@@ -2,17 +2,13 @@ package petclinic.webapp.application.services.homepage;
 
 import java.time.LocalDateTime;
 
+import javax.inject.Named;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.apache.isis.applib.annotation.DomainObject;
-import org.apache.isis.applib.annotation.DomainObjectLayout;
-import org.apache.isis.applib.annotation.Nature;
-import org.apache.isis.applib.annotation.Projecting;
-import org.apache.isis.applib.annotation.Property;
-import org.apache.isis.applib.annotation.Where;
+import org.apache.causeway.applib.annotation.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +17,8 @@ import petclinic.modules.pets.dom.pet.Pet;
 import petclinic.modules.pets.dom.petowner.PetOwner;
 import petclinic.modules.visits.dom.visit.Visit;
 
-@DomainObject(nature=Nature.VIEW_MODEL, logicalTypeName = "petclinic.VisitPlusPetOwner")
+@Named("petclinic.VisitPlusPetOwner")
+@DomainObject(nature=Nature.VIEW_MODEL)
 @DomainObjectLayout(named = "Visit")
 @XmlRootElement
 @NoArgsConstructor
@@ -29,10 +26,8 @@ import petclinic.modules.visits.dom.visit.Visit;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class VisitPlusPetOwner {
 
-    @Property(
-            projecting = Projecting.PROJECTED,
-            hidden = Where.EVERYWHERE
-    )
+    @Property(projecting = Projecting.PROJECTED)
+    @PropertyLayout(hidden = Where.EVERYWHERE)
     @Getter
     private Visit visit;
 

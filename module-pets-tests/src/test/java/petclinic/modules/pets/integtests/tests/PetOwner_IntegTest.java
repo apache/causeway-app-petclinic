@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.apache.isis.applib.services.wrapper.HiddenException;
-import org.apache.isis.applib.services.wrapper.InvalidException;
+import org.apache.causeway.applib.services.wrapper.HiddenException;
+import org.apache.causeway.applib.services.wrapper.InvalidException;
 
 import petclinic.modules.pets.dom.petowner.PetOwner;
 import petclinic.modules.pets.fixture.petowner.PetOwner_persona;

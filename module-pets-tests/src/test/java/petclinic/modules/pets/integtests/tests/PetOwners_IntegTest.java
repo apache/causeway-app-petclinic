@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.apache.isis.testing.unittestsupport.applib.matchers.ThrowableMatchers;
+import org.apache.causeway.testing.unittestsupport.applib.matchers.ThrowableMatchers;
 
 import petclinic.modules.pets.dom.petowner.PetOwner;
 import petclinic.modules.pets.dom.petowner.PetOwners;

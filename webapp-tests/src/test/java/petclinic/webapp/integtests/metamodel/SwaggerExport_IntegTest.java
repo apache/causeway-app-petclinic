@@ -1,25 +1,23 @@
 package petclinic.webapp.integtests.metamodel;
 
+import lombok.val;
+import petclinic.webapp.integtests.WebAppIntegTestAbstract;
+
 import java.io.IOException;
 
 import javax.inject.Inject;
 
+import org.apache.causeway.applib.services.registry.ServiceRegistry;
+import org.apache.causeway.applib.services.swagger.Format;
+import org.apache.causeway.applib.services.swagger.Visibility;
+import org.apache.causeway.testing.integtestsupport.applib.swagger.SwaggerExporter;
+import org.apache.causeway.viewer.restfulobjects.viewer.CausewayModuleViewerRestfulObjectsViewer;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 
-import org.apache.isis.applib.services.registry.ServiceRegistry;
-import org.apache.isis.applib.services.swagger.Format;
-import org.apache.isis.applib.services.swagger.Visibility;
-import org.apache.isis.testing.integtestsupport.applib.swagger.SwaggerExporter;
-import org.apache.isis.viewer.restfulobjects.jaxrsresteasy4.IsisModuleViewerRestfulObjectsJaxrsResteasy4;
-
-import lombok.val;
-
-import petclinic.webapp.integtests.WebAppIntegTestAbstract;
-
 @Import({
-        IsisModuleViewerRestfulObjectsJaxrsResteasy4.class
+        CausewayModuleViewerRestfulObjectsViewer.class
 })
 @DirtiesContext
 class SwaggerExport_IntegTest extends WebAppIntegTestAbstract {

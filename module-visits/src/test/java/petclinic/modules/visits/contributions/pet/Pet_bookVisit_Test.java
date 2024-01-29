@@ -11,8 +11,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import org.apache.isis.applib.clock.VirtualClock;
-import org.apache.isis.applib.services.clock.ClockService;
+import org.apache.causeway.applib.clock.VirtualClock;
+import org.apache.causeway.applib.services.clock.ClockService;
 
 @ExtendWith(MockitoExtension.class)
 class Pet_bookVisit_Test {

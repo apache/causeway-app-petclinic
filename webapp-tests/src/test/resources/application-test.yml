@@ -1,4 +1,6 @@
-isis:
+causeway:
   persistence:
     schema:
-      auto-create-schemas: "pets"
+      auto-create-schemas:
+      - "pets"
+      - "visits"

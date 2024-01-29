@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import org.apache.isis.applib.services.clock.ClockService;
-import org.apache.isis.applib.services.wrapper.DisabledException;
-import org.apache.isis.applib.services.wrapper.InvalidException;
-import org.apache.isis.testing.fakedata.applib.services.FakeDataService;
+import org.apache.causeway.applib.services.clock.ClockService;
+import org.apache.causeway.applib.services.wrapper.DisabledException;
+import org.apache.causeway.applib.services.wrapper.InvalidException;
+import org.apache.causeway.testing.fakedata.applib.services.FakeDataService;
 
 import petclinic.modules.pets.dom.pet.Pet;
 import petclinic.modules.pets.fixture.pet.Pet_persona;

@@ -4,30 +4,29 @@ import java.util.List;
 
 import javax.annotation.Priority;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.TypedQuery;
 
-import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.annotation.ActionLayout;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
-import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.NatureOfService;
-import org.apache.isis.applib.annotation.PriorityPrecedence;
-import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.PromptStyle;
-import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.query.Query;
-import org.apache.isis.applib.services.repository.RepositoryService;
-import org.apache.isis.persistence.jpa.applib.services.JpaSupportService;
+import org.apache.causeway.applib.annotation.Action;
+import org.apache.causeway.applib.annotation.ActionLayout;
+import org.apache.causeway.applib.annotation.BookmarkPolicy;
+import org.apache.causeway.applib.annotation.DomainService;
+import org.apache.causeway.applib.annotation.NatureOfService;
+import org.apache.causeway.applib.annotation.PriorityPrecedence;
+import org.apache.causeway.applib.annotation.Programmatic;
+import org.apache.causeway.applib.annotation.PromptStyle;
+import org.apache.causeway.applib.annotation.SemanticsOf;
+import org.apache.causeway.applib.query.Query;
+import org.apache.causeway.applib.services.repository.RepositoryService;
+import org.apache.causeway.persistence.jpa.applib.services.JpaSupportService;
 
 import lombok.RequiredArgsConstructor;
 
 import petclinic.modules.pets.types.FirstName;
 import petclinic.modules.pets.types.LastName;
 
-@DomainService(
-        nature = NatureOfService.VIEW,
-        logicalTypeName = "pets.PetOwners"
-)
+@Named("pets.PetOwners")
+@DomainService(nature = NatureOfService.VIEW)
 @Priority(PriorityPrecedence.EARLY)
 @RequiredArgsConstructor(onConstructor_ = {@Inject} )
 public class PetOwners {
@@ -55,7 +54,6 @@ public class PetOwners {
 
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     public List<PetOwner> findByLastName(
             @LastName final String lastName
             ) {
@@ -71,7 +69,6 @@ public class PetOwners {
 
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     public List<PetOwner> listAll() {
         return petOwnerRepository.findAll();
     }
@@ -82,13 +79,13 @@ public class PetOwners {
     @Programmatic
     public void ping() {
         jpaSupportService.getEntityManager(PetOwner.class)
-            .ifSuccess(entityManager -> {
+            .mapSuccessWhenPresent(entityManager -> {
                 final TypedQuery<PetOwner> q = entityManager.createQuery(
                         "SELECT p FROM PetOwner p ORDER BY p.lastName",
                         PetOwner.class)
                     .setMaxResults(1);
-                q.getResultList();
-            });
+                return q.getResultList();
+            }).valueAsNonNullElseFail();
     }
 
 

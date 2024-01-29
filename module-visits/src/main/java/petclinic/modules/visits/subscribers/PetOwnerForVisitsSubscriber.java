@@ -7,8 +7,8 @@ import javax.inject.Inject;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import org.apache.isis.applib.services.repository.RepositoryService;
-import org.apache.isis.applib.services.title.TitleService;
+import org.apache.causeway.applib.services.repository.RepositoryService;
+import org.apache.causeway.applib.services.title.TitleService;
 
 import petclinic.modules.pets.dom.pet.Pet;
 import petclinic.modules.pets.dom.pet.PetRepository;
