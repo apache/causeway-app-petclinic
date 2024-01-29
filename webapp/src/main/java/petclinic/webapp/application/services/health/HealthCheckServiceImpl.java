@@ -11,7 +11,7 @@ import org.apache.causeway.applib.services.health.HealthCheckService;
 import petclinic.modules.pets.dom.petowner.PetOwners;
 
 @Service
-@Named("petclinic.HealthCheckServiceImpl")
+@Named("app.petclinic.HealthCheckServiceImpl")
 public class HealthCheckServiceImpl implements HealthCheckService {
 
     private final PetOwners petOwners;

@@ -21,8 +21,12 @@
     <properties>
         <causeway.version>2.0.0-SNAPSHOT</causeway.version>
         <java.version>21</java.version>
-        <maven-cucumber-reporting.version>5.3.0</maven-cucumber-reporting.version>
+
         <archunit.version>0.14.1</archunit.version>
+        <datasource-proxy-spring-boot-starter.version>1.8.1</datasource-proxy-spring-boot-starter.version>
+        <maven-cucumber-reporting.version>5.3.0</maven-cucumber-reporting.version>
+        <sql-formatter.version>2.0.4</sql-formatter.version>
+
         <skipBDD>${skipTests}</skipBDD>
     </properties>
 
@@ -60,7 +64,20 @@
                 <type>test-jar</type>
             </dependency>
 
+
+            <dependency>
+                <groupId>com.github.gavlyukovskiy</groupId>
+                <artifactId>datasource-proxy-spring-boot-starter</artifactId>
+                <version>${datasource-proxy-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.vertical-blank</groupId>
+                <artifactId>sql-formatter</artifactId>
+                <version>${sql-formatter.version}</version>
+            </dependency>
+
         </dependencies>
+
     </dependencyManagement>
 
     <dependencies>

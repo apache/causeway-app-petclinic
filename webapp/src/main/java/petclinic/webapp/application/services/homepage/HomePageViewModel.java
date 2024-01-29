@@ -17,7 +17,7 @@ import petclinic.modules.pets.dom.petowner.PetOwner;
 import petclinic.modules.pets.dom.petowner.PetOwnerRepository;
 import petclinic.modules.visits.dom.visit.VisitRepository;
 
-@Named("petclinic.HomePageViewModel")
+@Named("app.petclinic.HomePageViewModel")
 @DomainObject(nature = Nature.VIEW_MODEL)
 @HomePage
 @DomainObjectLayout()

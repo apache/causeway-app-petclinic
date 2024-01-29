@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 import petclinic.modules.pets.types.FirstName;
 import petclinic.modules.pets.types.LastName;
 
-@Named("pets.PetOwners")
+@Named("app.pets.PetOwners")
 @DomainService(nature = NatureOfService.VIEW)
 @Priority(PriorityPrecedence.EARLY)
 @RequiredArgsConstructor(onConstructor_ = {@Inject} )

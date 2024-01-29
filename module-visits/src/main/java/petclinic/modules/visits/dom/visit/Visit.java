@@ -55,7 +55,7 @@ import petclinic.modules.visits.types.Reason;
     }
 )
 @EntityListeners(CausewayEntityListener.class)
-@Named("visits.Visit")
+@Named("app.visits.Visit")
 @DomainObject(entityChangePublishing = Publishing.ENABLED)
 @DomainObjectLayout()
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -100,7 +100,7 @@ public class Visit implements Comparable<Visit> {
     private LocalDateTime visitAt;
 
     @Reason
-    @Column(name = "reason", length = FirstName.MAX_LEN, nullable = false)
+    @Column(name = "reason", length = Reason.MAX_LEN, nullable = false)
     @Getter @Setter
     @PropertyLayout(fieldSetId = "details", sequence = "1")
     private String reason;

@@ -17,6 +17,8 @@
         Integ tests for 'pets' module
     </description>
 
+    <packaging>jar</packaging>
+
     <build>
         <testResources>
             <testResource>
@@ -40,6 +42,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>petclinic-module-pets</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <!-- TESTS -->

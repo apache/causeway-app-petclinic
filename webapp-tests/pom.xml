@@ -25,6 +25,9 @@
             <testResource>
                 <filtering>false</filtering>
                 <directory>src/test/java</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
                 <excludes>
                     <exclude>**/*.java</exclude>
                 </excludes>
@@ -69,6 +72,19 @@
         <dependency>
             <groupId>org.apache.causeway.persistence</groupId>
             <artifactId>causeway-persistence-jpa-eclipselink</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.gavlyukovskiy</groupId>
+            <artifactId>datasource-proxy-spring-boot-starter</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.vertical-blank</groupId>
+            <artifactId>sql-formatter</artifactId>
+            <version>${sql-formatter.version}</version>
             <scope>test</scope>
         </dependency>
 

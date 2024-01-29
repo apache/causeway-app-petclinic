@@ -17,7 +17,7 @@ import petclinic.modules.pets.dom.pet.Pet;
 import petclinic.modules.pets.dom.petowner.PetOwner;
 import petclinic.modules.visits.dom.visit.Visit;
 
-@Named("petclinic.VisitPlusPetOwner")
+@Named("app.petclinic.VisitPlusPetOwner")
 @DomainObject(nature=Nature.VIEW_MODEL)
 @DomainObjectLayout(named = "Visit")
 @XmlRootElement

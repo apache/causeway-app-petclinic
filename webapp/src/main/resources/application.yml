@@ -40,7 +40,7 @@ causeway:
       application:
         about: PetClinic
         brand-logo-signin: images/apache-causeway/logo-banner-591x120.png
-        brand-logo-header: images/apache-causeway/logo-48x48.png
+        brand-logo-header: images/apache-causeway/logo-65x48.png
         favicon-url: images/favicon.png
         menubars-layout-file: menubars.layout.xml
         name: PetClinic
@@ -68,11 +68,9 @@ causeway:
       api-variant: query_with_mutations_non_spec_compliant
       authentication:
         fallback:
-          username: sven
+          username: "graphql"
           roles:
-            - simple-superuser
-            - foo
-            - bar
+            - "org.apache.causeway.applib.services.sudo.SudoService#accessAll"
 
   testing:
     fixtures:

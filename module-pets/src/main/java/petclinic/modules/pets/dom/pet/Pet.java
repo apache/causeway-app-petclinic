@@ -47,7 +47,7 @@ import petclinic.modules.pets.types.PetName;
     }
 )
 @EntityListeners(CausewayEntityListener.class)
-@Named("pets.Pet")
+@Named("app.pets.Pet")
 @DomainObject(entityChangePublishing = Publishing.ENABLED)
 @DomainObjectLayout()
 @NoArgsConstructor(access = AccessLevel.PUBLIC)

@@ -25,3 +25,12 @@ th, td {
     margin: 8px auto;
     padding: 12px;
 }
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.centered-text {
+    font-size: larger;
+    text-align: center;
+}
