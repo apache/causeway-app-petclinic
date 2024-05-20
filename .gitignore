@@ -20,7 +20,7 @@ neo4j_DB/
 
 # log files
 datanucleus.log
-isis.log
+causeway.log
 i18n-po.log
 hs_err_pid*.log
 
@@ -43,3 +43,6 @@ translations.pot
 .flattened-pom.xml
 
 create-db-schema.sql
+
+test.http
+node_modules

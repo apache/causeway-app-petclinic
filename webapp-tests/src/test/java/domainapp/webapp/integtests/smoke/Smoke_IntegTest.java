@@ -4,19 +4,22 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.isis.applib.services.wrapper.InvalidException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.transaction.annotation.Transactional;
-
-import org.apache.isis.applib.services.xactn.TransactionService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domainapp.webapp.integtests.WebAppIntegTestAbstract;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
+
+import org.apache.causeway.applib.services.wrapper.InvalidException;
+import org.apache.causeway.applib.services.xactn.TransactionService;
+
 import domainapp.modules.simple.dom.so.SimpleObject;
 import domainapp.modules.simple.dom.so.SimpleObjects;
+import domainapp.webapp.integtests.WebAppIntegTestAbstract;
 
+@DirtiesContext
 @Transactional
 class Smoke_IntegTest extends WebAppIntegTestAbstract {
 

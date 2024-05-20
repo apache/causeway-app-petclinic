@@ -2,14 +2,21 @@
 :toc:
 :toc-placement!:
 
-image:https://github.com/apache/isis-app-simpleapp/workflows/Build%20w/%20Maven%20+%20Jdk%208/badge.svg[]
-image:https://github.com/apache/isis-app-simpleapp/workflows/Build%20w/%20Maven%20+%20Jdk%2015/badge.svg[]
+image:https://github.com/apache/causeway-app-simpleapp/workflows/Build%20w/%20Maven%20+%20Jdk%208/badge.svg[]
+image:https://github.com/apache/causeway-app-simpleapp/workflows/Build%20w/%20Maven%20+%20Jdk%2015/badge.svg[]
 
-This is a simple link:http://isis.apache.org[Apache Isis] application, structured so it can be used as a starting point for developing your own applications.
+This is a simple link:https://causeway.apache.org[Apache Causeway] application, structured so that it can be used as a starting point for developing your own applications.
+
+It consists of:
+
+* a single module, which you can refactor for your own domain, or take a copy of in order to ensure that your application is properly modular
+* configuration to bring in some of the more commonly used extensions: secman, command log, audit trail, execution log, session logger, flyway,quartz and excel download.
+
+You can easily remove these extensions (or add others) in the `AppManifest`.
 
 [TIP]
 ====
-If all you want is get a feel for what the framework is all about, then take a look at the link:https://github.com/apache/isis-app-helloworld[HelloWorld] starter app, which is even simpler.
+If all you want is get a feel for what the framework is all about, then take a look at the link:https://github.com/apache/causeway-app-helloworld[HelloWorld] starter app, which has the bare minimum of configuration.
 ====
 
 toc::[]
@@ -18,7 +25,7 @@ toc::[]
 
 * install prereqs:
 
-** Java 8 LTS (eg link:https://adoptopenjdk.net/[Adopt OpenJDK] distribution)
+** Java 11 LTS (eg link:https://adoptopenjdk.net/[Adopt OpenJDK] distribution)
 ** Maven 3.6 or later (http://maven.apache.org/download.cgi[download])
 * download and unzip
 +
@@ -27,7 +34,7 @@ toc::[]
 APP=simpleapp
 BRANCH=master
 
-REPO=isis-app-$APP
+REPO=causeway-app-$APP
 curl "https://codeload.github.com/apache/$REPO/zip/$BRANCH" | jar xv
 mv $REPO-$BRANCH $REPO
 cd $REPO
@@ -40,6 +47,15 @@ cd $REPO
 mvn clean install
 ----
 
+* Download the `spring-instrument.jar` for load-time weaving (discussed in more detail xref:#orm-support[below]):
++
+[source,bash]
+----
+mvn dependency:get -DgroupId=org.springframework -DartifactId=spring-instrument -Dversion=XXX
+----
++
+Change "XXX" to the value that `${spring-framework.version}` resolves to in the webapp `pom.xml`
+
 * Run using Maven:
 +
 [source,bash]
@@ -49,10 +65,17 @@ mvn -pl webapp spring-boot:run
 
 * Browse to http://localhost:8080.
 
-* Login to using:
+* Login using:
 
-** username: `sven`
-** password: `pass`
+** either the secman superuser:
+
+*** username: `secman-admin`
+*** password: `pass`
+
+** or as a regular user:
+
+*** username: `sven`
+*** password: `pass`
 
 +
 The app runs with H2 running in-memory, with sample data set up using fixture scripts.
@@ -65,7 +88,7 @@ export REVISION=...                 #<.>
 export DOCKER_REGISTRY_USERNAME     #<.>
 export DOCKER_REGISTRY_PASSWORD     #<.>
 
-mvn -pl webapp jib:build
+mvn -pl webapp -Ddocker jib:build
 ----
 <.> used as the image tag
 <.> Docker Hub registry username
@@ -84,42 +107,73 @@ The following table explains the contents of each of the directories:
 
 |`module-simple`
 |Holds the "simple" module, consisting of the `SimpleObject` entity and supporting services.
-It also contains module-specific unit- and integration tests.
 
 [TIP]
 ====
 Larger applications should consist of multiple modules; each such module can be copied from this starter module.
 ====
 
+|`module-simple-tests`
+|Holds the unit- and integration tests for `module-simple`.
+
+
 |`webapp`
 |Holds the bootstrapping classes, along with application-level scoped services and home page.
-It also contains application-wide integration tests/BDD specs, and lockdown tests.
 
 The `pom.xml` also provides goals to run the app from the command line, or to be assembled into a Docker image.
 
+|`webapp-tests`
+|Contains application-wide integration tests.
+
 |====================
 
+It's more common for tests to reside within the same module, but we moved them into their own Maven modules because it makes them easier to be temporarily excluded, eg during initial explorations/prototyping.
 
-== Development
 
-Apache Isis uses DataNucleus as its ORM, which requires that any entities are "enhanced", a post-compile process.
+[#orm-support]
+== ORM Support
 
-Normally this is done as part of a "mvn clean install", but the entities can also be enhanced explicity using:
+This version of the application uses EclipseLink JPA as its ORM, configured with load-time weaving.
+This requires that the application be run with a Java agent.
 
+The spring-boot plugin is configured to run with this agent already.
+If you want to run from an IDE:
+
+* first, you might wish to copy the file locally:
++
 [source,bash]
 ----
-mvn -pl module-simple datanucleus:enhance -o
+cp ~/.m2/repository/org/springframework/spring-instrument/XXX/spring-instrument-XXX.jar lib/spring-instrument.jar
+----
++
+Change "XXX" to the value that `${spring-framework.version}` resolves to in the webapp `pom.xml`
+
+* Then specify the agent as a VM option:
++
+[source,bash]
+----
+-javaagent:lib/spring-instrument.jar
 ----
 
-This is useful to know if the application or integration test fails to bootstrap, complaining of "unenhanced entities".
 
-TIP: You can also use `enhance-all.sh`
+
+//This version of the application uses DataNucleus as its ORM, which requires that any entities are "enhanced", a post-compile process.
+//
+//Normally this is done as part of a "mvn clean install", but the entities can also be enhanced explicity using:
+//
+//[source,bash]
+//----
+//mvn -pl module-simple datanucleus:enhance -o
+//----
+//
+//This is useful to know if the application or integration test fails to bootstrap, complaining of "unenhanced entities".
+//
+//TIP: You can also use `enhance-all.sh`
 
 
 == Testing
 
-The application has three types of tests.
-Each of these generates its own set of tests, and each can be disabled through a system property.
+The application has both unit tests and integration tests.
 
 .Testing types
 [cols="5a,12a,6a,3a", options="header"]
@@ -129,7 +183,6 @@ Each of these generates its own set of tests, and each can be disabled through a
 | Report
 | Phase
 | Skip using
-
 
 | Unit test
 | `target/surefire-unittest-reports`
@@ -141,66 +194,21 @@ Each of these generates its own set of tests, and each can be disabled through a
 | `integration-test`
 | `-DskipITs`
 
-| BDD (Cucumber) specs
-| `target/surefire-integbddspecs-reports` and +
-`target/cucumber-html-reports/overview-features.html`
-
-| `integration-test`
-| `-DskipBS`
-
 
 |===
 
 
-These outputs can for example be processed within/published by a continuous pipeline pipeline.
-
-
-=== Lockdown Tests
-
-Lockdown tests capture the state of the system, so that changes to that system can be captured and confirmed.
-There are two lockdown tests:
-
-* the metamodel (serialized as XML)
-+
-This is expected to change whenever the domain logic is changed, but generally should _not_ change when the Apache Isis framework is upgraded.
-
-* Maven dependencies (serialized as flat files)
-+
-This should only change when dependencies are bumped or new dependencies added.
-
-The lockdown tests are implemented as link:https://approvaltests.com/[approval test]s, meaning that the current state is compared to an "approved" state.
-If there are no differences then the test passes.
-If there are differences then the test fails, and a diff is shown using any available `diff` tool.
-
-The lockdown tests are disabled by default, and are enabled with system properties.
-
-* to compare the current metamodel with the previously approved metamodel:
-+
-[source,bash]
-----
-mvn integration-test -Dmetamodel.lockdown
-----
-
-* to compare the current Maven dependencies with the previously approved dependencies:
-+
-[source,bash]
-----
-mvn test -Dmavendeps.lockdown
-----
-
-When there are differences, the current state is written to the `current` subdirectory.
-If the current state is approved, it should be copied over to the corresponding `approved` subdirectory.
-
+These outputs can for example be processed within/published by a continuous pipeline.
 
 
 
 == Translations
 
-Apache Isis supports i18n using link:https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html[GNU .po file]s.
+Apache Causeway supports i18n using link:https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html[GNU .po file]s.
 The `WEB-INF/translations.po` is the fallback (an empty value means that the key is used "as-is"), while `WEB-INF/translations-XX.po` files provide translations for each "XX" locale.
 
 Translations are required for all domain classes and all members (actions, properties and collections) of all classes.
-This information is available from the metamodel, and so a new template `translations.po` is generated as a side-effect of running the integration tests (through a log4j2 logger).
+This information is available from the metamodel, and so a new template `translations.po` is generated as a side effect of running the integration tests (through a log4j2 logger).
 A good integration test to run is `ValidateDomainModel_IntegTest`.
 
 In addition, translations are required for any validation messages triggered by the test.
@@ -233,7 +241,7 @@ The presence of these is enough to enable the Flyway integration
 +
 This is explicitly set to `true`, to override the value in the default `config/application.properties`.
 
-* `isis.persistence.jdo-datanucleus.impl.datanucleus.schema.autoCreateAll`
+* `causeway.persistence.jdo-datanucleus.impl.datanucleus.schema.autoCreateAll`
 +
 This is set to `false`, also overriding the value in the default `config/application.properties`.
 It instructs the JDO/DataNucleus object store not to automatically create any tables etc.

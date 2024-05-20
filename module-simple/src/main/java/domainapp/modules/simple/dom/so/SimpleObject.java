@@ -1,27 +1,58 @@
 package domainapp.modules.simple.dom.so;
 
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.Comparator;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.annotation.ActionLayout;
-import org.apache.isis.applib.annotation.DomainObject;
-import org.apache.isis.applib.annotation.DomainObjectLayout;
-import org.apache.isis.applib.annotation.PromptStyle;
-import org.apache.isis.applib.annotation.Property;
-import org.apache.isis.applib.annotation.PropertyLayout;
-import org.apache.isis.applib.annotation.Publishing;
-import org.apache.isis.applib.annotation.Title;
-import org.apache.isis.applib.jaxb.PersistentEntityAdapter;
-import org.apache.isis.applib.services.message.MessageService;
-import org.apache.isis.applib.services.repository.RepositoryService;
-import org.apache.isis.applib.services.title.TitleService;
-import org.apache.isis.persistence.jpa.applib.integration.IsisEntityListener;
+import org.springframework.lang.Nullable;
 
-import static org.apache.isis.applib.annotation.SemanticsOf.IDEMPOTENT;
-import static org.apache.isis.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE;
+import org.apache.causeway.applib.annotation.Action;
+import org.apache.causeway.applib.annotation.ActionLayout;
+import org.apache.causeway.applib.annotation.BookmarkPolicy;
+import org.apache.causeway.applib.annotation.DomainObject;
+import org.apache.causeway.applib.annotation.DomainObjectLayout;
+import org.apache.causeway.applib.annotation.Editing;
+import org.apache.causeway.applib.annotation.MemberSupport;
+import org.apache.causeway.applib.annotation.Optionality;
+import org.apache.causeway.applib.annotation.PromptStyle;
+import org.apache.causeway.applib.annotation.Property;
+import org.apache.causeway.applib.annotation.PropertyLayout;
+import org.apache.causeway.applib.annotation.Publishing;
+import org.apache.causeway.applib.annotation.TableDecorator;
+import org.apache.causeway.applib.annotation.Title;
+import org.apache.causeway.applib.jaxb.PersistentEntityAdapter;
+import org.apache.causeway.applib.layout.LayoutConstants;
+import org.apache.causeway.applib.services.message.MessageService;
+import org.apache.causeway.applib.services.repository.RepositoryService;
+import org.apache.causeway.applib.services.title.TitleService;
+import org.apache.causeway.applib.value.Blob;
+import org.apache.causeway.extensions.fullcalendar.applib.CalendarEventable;
+import org.apache.causeway.extensions.fullcalendar.applib.value.CalendarEvent;
+import org.apache.causeway.extensions.pdfjs.applib.annotations.PdfJsViewer;
+import org.apache.causeway.persistence.jpa.applib.integration.CausewayEntityListener;
+import org.apache.causeway.persistence.jpa.applib.types.BlobJpaEmbeddable;
+
+import static org.apache.causeway.applib.annotation.SemanticsOf.IDEMPOTENT;
+import static org.apache.causeway.applib.annotation.SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -30,96 +61,160 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.val;
 
+import domainapp.modules.simple.SimpleModule;
 import domainapp.modules.simple.types.Name;
 import domainapp.modules.simple.types.Notes;
 
 
-@javax.persistence.Entity
-@javax.persistence.Table(
-    schema="simple",
+@Entity
+@Table(
+    schema= SimpleModule.SCHEMA,
     uniqueConstraints = {
-        @javax.persistence.UniqueConstraint(name = "SimpleObject__name__UNQ", columnNames = {"NAME"})
+        @UniqueConstraint(name = "SimpleObject__name__UNQ", columnNames = {"name"})
     }
 )
-@javax.persistence.NamedQueries({
-        @javax.persistence.NamedQuery(
+@NamedQueries({
+        @NamedQuery(
                 name = SimpleObject.NAMED_QUERY__FIND_BY_NAME_LIKE,
                 query = "SELECT so " +
                         "FROM SimpleObject so " +
                         "WHERE so.name LIKE :name"
         )
 })
-@javax.persistence.EntityListeners(IsisEntityListener.class)
-@DomainObject(logicalTypeName = "simple.SimpleObject", entityChangePublishing = Publishing.ENABLED)
-@DomainObjectLayout()
+@EntityListeners(CausewayEntityListener.class)
+@Named(SimpleModule.NAMESPACE + ".SimpleObject")
+@DomainObject(entityChangePublishing = Publishing.ENABLED)
+@DomainObjectLayout(
+        tableDecorator = TableDecorator.DatatablesNet.class,
+        bookmarking = BookmarkPolicy.AS_ROOT)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @XmlJavaTypeAdapter(PersistentEntityAdapter.class)
 @ToString(onlyExplicitlyIncluded = true)
-public class SimpleObject implements Comparable<SimpleObject> {
+public class SimpleObject implements Comparable<SimpleObject>, CalendarEventable {
 
     static final String NAMED_QUERY__FIND_BY_NAME_LIKE = "SimpleObject.findByNameLike";
 
-    @javax.persistence.Id
-    @javax.persistence.GeneratedValue(strategy = javax.persistence.GenerationType.AUTO)
-    @javax.persistence.Column(name = "id", nullable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @javax.persistence.Version
-    @javax.persistence.Column(name = "version", nullable = false)
+    @Version
+    @Column(name = "version", nullable = false)
     @PropertyLayout(fieldSetId = "metadata", sequence = "999")
     @Getter @Setter
     private long version;
 
-    public static SimpleObject withName(String name) {
+    public static SimpleObject withName(final String name) {
         val simpleObject = new SimpleObject();
         simpleObject.setName(name);
         return simpleObject;
     }
 
-    @Inject @javax.persistence.Transient RepositoryService repositoryService;
-    @Inject @javax.persistence.Transient TitleService titleService;
-    @Inject @javax.persistence.Transient MessageService messageService;
+    @Inject @Transient RepositoryService repositoryService;
+    @Inject @Transient TitleService titleService;
+    @Inject @Transient MessageService messageService;
 
 
 
     @Title
     @Name
-    @javax.persistence.Column(length = Name.MAX_LEN, nullable = false)
+    @Column(length = Name.MAX_LEN, nullable = false, name = "name")
     @Getter @Setter @ToString.Include
-    @PropertyLayout(fieldSetId = "name", sequence = "1")
+    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.IDENTITY, sequence = "1")
     private String name;
 
     @Notes
-    @javax.persistence.Column(length = Notes.MAX_LEN, nullable = true)
+    @Column(length = Notes.MAX_LEN, nullable = true)
     @Getter @Setter
     @Property(commandPublishing = Publishing.ENABLED, executionPublishing = Publishing.ENABLED)
-    @PropertyLayout(fieldSetId = "name", sequence = "2")
+    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "2")
     private String notes;
+
+    @AttributeOverrides({
+            @AttributeOverride(name="name",    column=@Column(name="attachment_name")),
+            @AttributeOverride(name="mimeType",column=@Column(name="attachment_mimeType")),
+            @AttributeOverride(name="bytes",   column=@Column(name="attachment_bytes"))
+    })
+    @Embedded
+    private BlobJpaEmbeddable attachment;
+
+    @PdfJsViewer
+    @Property(optionality = Optionality.OPTIONAL)
+    @PropertyLayout(fieldSetId = "content", sequence = "1")
+    public Blob getAttachment() {
+        return BlobJpaEmbeddable.toBlob(attachment);
+    }
+    public void setAttachment(final Blob attachment) {
+        this.attachment = BlobJpaEmbeddable.fromBlob(attachment);
+    }
+
+
+
+    @Property(optionality = Optionality.OPTIONAL, editing = Editing.ENABLED)
+    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "3")
+    @Column(nullable = true)
+    @Getter @Setter
+    private java.time.LocalDate lastCheckedIn;
+
+
+    @Override
+    public String getCalendarName() {
+        return "Last checked-in";
+    }
+
+    @Override
+    public CalendarEvent toCalendarEvent() {
+        if (getLastCheckedIn() != null) {
+            long epochMillis = getLastCheckedIn().toEpochSecond(LocalTime.MIDNIGHT, ZoneOffset.systemDefault().getRules().getOffset(getLastCheckedIn().atStartOfDay())) * 1000L;
+            return new CalendarEvent(epochMillis, getCalendarName(), titleService.titleOf(this), getNotes());
+        } else {
+            return null;
+        }
+    }
 
 
     @Action(semantics = IDEMPOTENT, commandPublishing = Publishing.ENABLED, executionPublishing = Publishing.ENABLED)
-    @ActionLayout(associateWith = "name", promptStyle = PromptStyle.INLINE)
+    @ActionLayout(
+            associateWith = "name", promptStyle = PromptStyle.INLINE,
+            describedAs = "Updates the name of this object, certain characters (" + PROHIBITED_CHARACTERS + ") are not allowed.")
     public SimpleObject updateName(
             @Name final String name) {
         setName(name);
         return this;
     }
-    public String default0UpdateName() {
+    @MemberSupport public String default0UpdateName() {
         return getName();
     }
-    public String validate0UpdateName(String newName) {
-        for (char prohibitedCharacter : "&%$!".toCharArray()) {
+    @MemberSupport public String validate0UpdateName(final String newName) {
+        for (char prohibitedCharacter : PROHIBITED_CHARACTERS.toCharArray()) {
             if( newName.contains(""+prohibitedCharacter)) {
                 return "Character '" + prohibitedCharacter + "' is not allowed.";
             }
         }
         return null;
     }
+    static final String PROHIBITED_CHARACTERS = "&%$!";
+
+
+
+    @Action(semantics = IDEMPOTENT, commandPublishing = Publishing.ENABLED, executionPublishing = Publishing.ENABLED)
+    @ActionLayout(associateWith = "attachment", position = ActionLayout.Position.PANEL)
+    public SimpleObject updateAttachment(
+            @Nullable final Blob attachment) {
+        setAttachment(attachment);
+        return this;
+    }
+    @MemberSupport public Blob default0UpdateAttachment() {
+        return getAttachment();
+    }
+
 
 
     @Action(semantics = NON_IDEMPOTENT_ARE_YOU_SURE)
     @ActionLayout(
-            associateWith = "name", position = ActionLayout.Position.PANEL,
+            fieldSetId = LayoutConstants.FieldSetId.IDENTITY,
+            position = ActionLayout.Position.PANEL,
             describedAs = "Deletes this object from the persistent datastore")
     public void delete() {
         final String title = titleService.titleOf(this);

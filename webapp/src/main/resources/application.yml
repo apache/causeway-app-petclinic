@@ -3,13 +3,12 @@
 #
 # See also config/application.properties
 #
-isis:
+causeway:
 
   applib:
     annotation:
       action:
-        explicit: true
-        command-publishing: ignore_safe
+        command-publishing: all
         execution-publishing: all
       action-layout:
         css-class:
@@ -23,38 +22,51 @@ isis:
       domain-object:
         editing: false
         entity-change-publishing: all
-
   core:
     meta-model:
       introspector:
         lock-after-full-introspection: true
+        mode: full
       validator:
         allow-deprecated: false
-        no-params-only: true
-        explicit-object-type: true
 
     runtime-services:
       translation:
         po:
           mode: disabled
 
+  extensions:
+    secman:
+      seed:
+        admin:
+          user-name: "secman-admin"
+          password: "pass"
+          role-name: "causeway-ext-secman-admin"
+          namespace-permissions:
+            sticky: "simple"
+#            additional: ...
+        regular-user:
+          role-name: "causeway-ext-secman-user"
+      permissions-evaluation-policy: allow_beats_veto
+      user-menu-me-action-policy: hide
   viewer:
-    wicket:
+    common:
       application:
         about: Simple App
-        brand-logo-header: images/apache-isis/logo-48x48.png
-        css: css/application.css
+        brand-logo-signin: images/apache-causeway/logo-banner-591x120.png
+        brand-logo-header: images/apache-causeway/logo-65x48.png
         favicon-url: images/favicon.png
-        js: scripts/application.js
-        menubars-layout-xml: menubars.layout.xml
+        menubars-layout-file: menubars.layout.xml
         name: Simple App
         # https://stackoverflow.com/a/38983935/56880
-        version: @project.version@
-
+        version: ^project.version^
       credit:
-        - url:  http://isis.apache.org
-          image: images/apache-isis/logo-48x48.png
-          name: Apache Isis
+        - image: images/apache-causeway/logo-65x48.png
+          name: Apache Causeway
+          url: https://causeway.apache.org
+    wicket:
+      css: css/application.css
+      js: scripts/application.js
 
       bookmarked-pages:
         show-chooser: true
@@ -65,6 +77,36 @@ isis:
 
       themes:
         show-chooser: true
+        initial: Flatly
+        enabled:
+          - Cerulean
+          - Cosmo
+          - Cyborg
+          - Darkly
+          - Flatly
+          - Journal
+          - Lumen
+          - Sandstone
+          - Simplex
+          - Slate
+          - Spacelab
+          - Superhero
+          - United
+          - Yeti
+
+      table:
+        decoration:
+          data-tables-net:
+            options: "info: false, pagingType: 'numbers'"
+    graphql:
+      api-variant: query_with_mutations_non_spec_compliant
+      authentication:
+        fallback:
+          username: sven
+          roles:
+            - simple-superuser
+            - foo
+            - bar
 
   testing:
     fixtures:
@@ -74,6 +116,9 @@ isis:
         recreate: domainapp.webapp.application.fixture.scenarios.DomainAppDemo
         non-persisted-objects-strategy: persist
         multiple-execution-strategy: execute
+  value-types:
+    big-decimal:
+      allow-grouping-separator-when-parse: false
 
 eclipselink:
   # if enabled, then must be run with JVM arg:
@@ -95,12 +140,72 @@ server:
 spring:
   banner:
     location: banner.txt
-
   quartz:
     job-store-type: memory
+  graphql:
+    graphiql:
+      enabled: true
+      path: "/graphiql"
+    schema:
+      printer:
+        enabled: true
 
 management:
   endpoint:
+    auditevents:
+      enabled: false
+    beans:
+      enabled: false
+    caches:
+      enabled: false
+    configprops:
+      enabled: false
+    conditions:
+      enabled: false
+    env:
+      enabled: false
+    flyway:
+      enabled: false
+    heapdump:
+      enabled: false
     health:
       enabled: true
-
+      probes:
+        enabled: false
+    httptrace:
+      enabled: false
+    info:
+      enabled: false
+    integrationgraph:
+      enabled: false
+    jolokia:
+      enabled: false
+    liquibase:
+      enabled: false
+    logfile:
+      enabled: false
+    loggers:
+      enabled: false
+    metrics:
+      enabled: false
+    prometheus:
+      enabled: false
+    quartz:
+      enabled: false
+    sessions:
+      enabled: false
+    shutdown:
+      enabled: false
+    startup:
+      enabled: false
+    scheduledtasks:
+      enabled: false
+    threaddump:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+      discovery:
+        enabled: false

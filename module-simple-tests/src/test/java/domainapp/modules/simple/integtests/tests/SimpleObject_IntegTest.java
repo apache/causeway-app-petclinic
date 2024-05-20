@@ -3,13 +3,14 @@ package domainapp.modules.simple.integtests.tests;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.apache.isis.applib.services.wrapper.DisabledException;
-import org.apache.isis.applib.services.wrapper.InvalidException;
+import org.springframework.transaction.annotation.Transactional;
+
+import org.apache.causeway.applib.services.wrapper.DisabledException;
+import org.apache.causeway.applib.services.wrapper.InvalidException;
 
 import domainapp.modules.simple.dom.so.SimpleObject;
 import domainapp.modules.simple.fixture.SimpleObject_persona;

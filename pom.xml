@@ -4,27 +4,37 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.isis.app</groupId>
-        <artifactId>isis-app-starter-parent</artifactId>
-        <version>2.0.0-M6</version>
+        <groupId>org.apache.causeway.app</groupId>
+        <artifactId>causeway-app-starter-parent</artifactId>
+        <version>2.0.0</version>
         <relativePath/>
     </parent>
 
-    <groupId>org.apache.isis.starters</groupId>
     <artifactId>simpleapp-jpa</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <groupId>org.apache.causeway.starters</groupId>
+    <version>2.0.0</version>
 
     <name>SimpleApp (JPA) - Parent</name>
 
     <packaging>pom</packaging>
 
     <properties>
-        <isis.version>2.0.0-M6</isis.version>
         <java.version>11</java.version>
-        <maven-cucumber-reporting.version>5.3.0</maven-cucumber-reporting.version>
-        <archunit.version>0.14.1</archunit.version>
-        <skipBDD>${skipTests}</skipBDD>
+
+        <datasource-proxy-spring-boot-starter.version>1.8.1</datasource-proxy-spring-boot-starter.version>
+        <maven-timeline.version>1.8</maven-timeline.version>
+        <sql-formatter.version>2.0.4</sql-formatter.version>
     </properties>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>io.takari.maven</groupId>
+                <artifactId>maven-timeline</artifactId>
+                <version>${maven-timeline.version}</version>
+            </extension>
+        </extensions>
+    </build>
 
     <dependencyManagement>
         <dependencies>
@@ -53,6 +63,17 @@
                 <version>${project.version}</version>
                 <scope>test</scope>
                 <type>test-jar</type>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.gavlyukovskiy</groupId>
+                <artifactId>datasource-proxy-spring-boot-starter</artifactId>
+                <version>${datasource-proxy-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.vertical-blank</groupId>
+                <artifactId>sql-formatter</artifactId>
+                <version>${sql-formatter.version}</version>
             </dependency>
 
         </dependencies>
@@ -98,10 +119,9 @@
             <repositories>
                 <repository>
                     <id>nightly-builds</id>
-                    <url>https://nexus.incode.work/repository/nightly-builds/</url>
+                    <url>https://raw.githubusercontent.com/apache-causeway-committers/causeway-nightly/master/mvn-snapshots</url>
                 </repository>
             </repositories>
         </profile>
     </profiles>
-
 </project>
