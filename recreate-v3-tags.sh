@@ -71,10 +71,9 @@ then
   done
 fi
 
-
 if [ -n $FROM_TAG ]
 then
-  TAGV2=$FROM_TAG
+  TAGV2=$(cat $TAG_NAMES | head -1)
   TAGV3=$(echo $TAGV2 | sed s/v2/v3/)
 
   echo git merge $TAGV2 --no-edit
@@ -88,10 +87,12 @@ then
   then
     git tag $TAGV3
   fi
+  PREV=$TAGV2
+else
+  PREV=""
 fi
 
-PREV=$FROM_TAG
-for TAGV2 in $(cat $TAG_NAMES)
+for TAGV2 in $(cat $TAG_NAMES | tail +2)
 do
   TAGV3=$(echo $TAGV2 | sed s/v2/v3/)
 
