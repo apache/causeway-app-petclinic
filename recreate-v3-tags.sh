@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 usage() {
-  echo "$(basename $0): [-x] -P" >&2
+  echo "$(basename $0): [-x] -P [ -f tag]" >&2
   echo "  -x : execute; otherwise acts as a dry-run" >&2
   echo "  -P : skip push; otherwise will push all changes to origin" >&2
+  echo "  -f : from tag" >&2
   echo "" >&2
 }
 
 EXECUTE="no"
 PUSH="yes"
+FROM_TAG=""
 
-while getopts ":hPx" arg; do
+while getopts ":hPf:x" arg; do
   case $arg in
     h)
       usage
@@ -17,6 +19,10 @@ while getopts ":hPx" arg; do
       ;;
     x)
       EXECUTE="yes"
+      ;;
+    f)
+      FROM_TAG=$OPTARG
+      shift
       ;;
     P)
       PUSH="no"
@@ -31,30 +37,61 @@ shift $((OPTIND-1))
 
 echo "-x : EXECUTE : ${EXECUTE}"
 echo "-P : PUSH    : ${PUSH}"
+echo "-f : FROM_TAG: ${FROM_TAG}"
 
-for TAGV3 in $(git tag | grep v3)
-do
+TAG_NAMES=/tmp/$(basename $0).tag_names.$$
 
-  echo git tag -d $TAGV3
-  if [ "$EXECUTE" = "yes" ]
-  then
-    git tag -d $TAGV3
-  fi
+if [ -n $FROM_TAG ]
+then
+  git tag | grep v2 | awk -v pt="$FROM_TAG" '$0 > pt' > $TAG_NAMES
+else
+  git tag | grep v2 > $TAG_NAMES
+fi
 
-  if [ "$PUSH" = "yes" ]
-  then
-    echo git push origin $TAGV3 --delete
+if [ -z $FROM_TAG ]
+then
+  for TAGV3 in $(git tag | grep v3)
+  do
+
+    echo git tag -d $TAGV3
     if [ "$EXECUTE" = "yes" ]
     then
-      git push origin $TAGV3 --delete
+      git tag -d $TAGV3
     fi
+
+    if [ "$PUSH" = "yes" ]
+    then
+      echo git push origin $TAGV3 --delete
+      if [ "$EXECUTE" = "yes" ]
+      then
+        git push origin $TAGV3 --delete
+      fi
+    fi
+
+  done
+fi
+
+
+if [ -n $FROM_TAG ]
+then
+  TAGV2=$FROM_TAG
+  TAGV3=$(echo $TAGV2 | sed s/v2/v3/)
+
+  echo git merge $TAGV2 --no-edit
+  if [ "$EXECUTE" = "yes" ]
+  then
+    git merge $TAGV2 --no-edit
   fi
 
-done
+  echo git tag $TAGV3
+  if [ "$EXECUTE" = "yes" ]
+  then
+    git tag $TAGV3
+  fi
+fi
 
-
-PREV=
-for TAGV2 in $(git tag | grep v2)
+PREV=$FROM_TAG
+for TAGV2 in $(cat $TAG_NAMES)
 do
   TAGV3=$(echo $TAGV2 | sed s/v2/v3/)
 
