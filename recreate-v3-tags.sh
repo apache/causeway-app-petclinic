@@ -21,7 +21,7 @@ while getopts ":hPf:x" arg; do
       EXECUTE="yes"
       ;;
     f)
-      FROM_TAG=$OPTARG
+      FROM_TAG=$(echo $OPTARG | sed s/v3/v2/)
       shift
       ;;
     P)
@@ -48,55 +48,8 @@ else
   git tag | grep v2 > $TAG_NAMES
 fi
 
-if [ -z $FROM_TAG ]
-then
-  for TAGV3 in $(git tag | grep v3)
-  do
-
-    echo git tag -d $TAGV3
-    if [ "$EXECUTE" = "yes" ]
-    then
-      git tag -d $TAGV3
-      read -p "continue?"
-    fi
-
-    if [ "$PUSH" = "yes" ]
-    then
-      echo git push origin $TAGV3 --delete
-      if [ "$EXECUTE" = "yes" ]
-      then
-        git push origin $TAGV3 --delete
-        read -p "continue?"
-      fi
-    fi
-
-  done
-fi
-
-if [ -n $FROM_TAG ]
-then
-  TAGV2=$(cat $TAG_NAMES | head -1)
-  TAGV3=$(echo $TAGV2 | sed s/v2/v3/)
-
-  echo git merge $TAGV2 --no-edit
-  if [ "$EXECUTE" = "yes" ]
-  then
-    git merge $TAGV2 --no-edit
-    read -p "continue?"
-  fi
-
-  echo git tag $TAGV3
-  if [ "$EXECUTE" = "yes" ]
-  then
-    git tag $TAGV3
-    read -p "continue?"
-  fi
-  PREV=$TAGV2
-else
-  PREV=""
-fi
-
-for TAGV2 in $(cat $TAG_NAMES | tail +2)
+PREV=""
+for TAGV2 in $(cat $TAG_NAMES)
 do
   TAGV3=$(echo $TAGV2 | sed s/v2/v3/)
 
@@ -110,13 +63,6 @@ do
     fi
   fi
 
-  echo git merge $TAGV2 --no-edit
-  if [ "$EXECUTE" = "yes" ]
-  then
-    git merge $TAGV2 --no-edit
-    read -p "continue?"
-  fi
-
   echo git tag $TAGV3
   if [ "$EXECUTE" = "yes" ]
   then
@@ -125,6 +71,5 @@ do
   fi
 
   PREV=$TAGV2
-
 done
 
