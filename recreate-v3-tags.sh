@@ -57,6 +57,7 @@ then
     if [ "$EXECUTE" = "yes" ]
     then
       git tag -d $TAGV3
+      read -p "continue?"
     fi
 
     if [ "$PUSH" = "yes" ]
@@ -65,6 +66,7 @@ then
       if [ "$EXECUTE" = "yes" ]
       then
         git push origin $TAGV3 --delete
+        read -p "continue?"
       fi
     fi
 
@@ -80,12 +82,14 @@ then
   if [ "$EXECUTE" = "yes" ]
   then
     git merge $TAGV2 --no-edit
+    read -p "continue?"
   fi
 
   echo git tag $TAGV3
   if [ "$EXECUTE" = "yes" ]
   then
     git tag $TAGV3
+    read -p "continue?"
   fi
   PREV=$TAGV2
 else
@@ -102,6 +106,7 @@ do
     if [ "$EXECUTE" = "yes" ]
     then
       git cherry-pick $PREV..$TAGV2
+      read -p "continue?"
     fi
   fi
 
@@ -109,16 +114,17 @@ do
   if [ "$EXECUTE" = "yes" ]
   then
     git merge $TAGV2 --no-edit
+    read -p "continue?"
   fi
 
   echo git tag $TAGV3
   if [ "$EXECUTE" = "yes" ]
   then
     git tag $TAGV3
+    read -p "continue?"
   fi
 
   PREV=$TAGV2
 
-  read -p "continue?"
 done
 
