@@ -87,7 +87,11 @@ do
       then
         for POM_XML in $(find . -name "pom.xml")
         do
-            sed -i "s/<version>$PREV_VERSION<\/version>/<version>$NEW_VERSION<\/version>/g" "$POM_XML"
+          if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' "s|<version>$PREV_VERSION</version>|<version>$NEW_VERSION</version>|g" "$POM_XML"
+          else
+            sed -i "s|<version>$PREV_VERSION</version>|<version>$NEW_VERSION</version>|g" "$POM_XML"
+          fi
         done
         if [ -n "$(git status --porcelain)" ]
         then
