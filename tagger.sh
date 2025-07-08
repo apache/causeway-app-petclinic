@@ -1,29 +1,27 @@
 #!/bin/bash
 
 usage() {
-	echo "$(basename $0) -b base_branch -v new_version -x" >&2
+	echo "$(basename $0) -p previous_version -v new_version -x" >&2
 	echo "" >&2
 	echo "where:" >&2
-	echo "     -b base branch, either v2 or v3" >&2
+	echo "     -p previous version" >&2
 	echo "     -v new version" >&2
 	echo "     -x execute (otherwise, is a dry run)" >&2
 	echo "" >&2
 	echo "eg:" >&2
-	echo "    $(basename $0) -b v2 -v 2.1.0" >&2
-	echo "    $(basename $0) -b v3 -v 3.1.0 -x" >&2
+	echo "    $(basename $0) -p 3.4.0 -v 3.5.0 -x" >&2
 	echo "" >&2
 	exit 1
 }
 
-BASE_BRANCH=""
 PREV_VERSION=""
 NEW_VERSION=""
 EXECUTE=""
 
-while getopts ":b:v:x" opt; do
+while getopts ":p:v:x" opt; do
   case ${opt} in
-    b)
-      BASE_BRANCH=$OPTARG
+    p)
+      PREV_VERSION=$OPTARG
       ;;
     v)
       NEW_VERSION=$OPTARG
@@ -40,32 +38,20 @@ while getopts ":b:v:x" opt; do
 done
 shift $((OPTIND -1))
 
-if [ "$BASE_BRANCH" != "v2" -a "$BASE_BRANCH" != "v3" ]
-then
-	usage
-fi
-if [ "$BASE_BRANCH" == "v2" ]
-then
-	PREV_VERSION="2.0.0"
-fi
-if [ "$BASE_BRANCH" == "v3" ]
-then
-	PREV_VERSION="3.0.0"
-fi
 
-if [ -z "$PREV_VERSION" -o -z "$NEW_VERSION" ]
+if [ -z "$PREV_VERSION" ] || [ -z "$NEW_VERSION" ]
 then
 	usage
 fi
 
 
-echo "-b BASE_BRANCH  : $BASE_BRANCH"
+echo "-p PREV_VERSION : $PREV_VERSION"
 echo "-v NEW_VERSION  : $NEW_VERSION"
 echo "-x EXECUTE      : $EXECUTE"
 
 
 PREV_TAG=""
-for TAG in $(git tag -l | grep "tags/$BASE_BRANCH/")
+for TAG in $(git tag -l | grep "tags/$PREV_VERSION/")
 do
 	NEW_TAG="tags/$NEW_VERSION/$(echo $TAG | cut -c9-)"
 
