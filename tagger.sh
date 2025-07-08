@@ -89,13 +89,6 @@ do
         do
             sed -i "s/<version>$PREV_VERSION<\/version>/<version>$NEW_VERSION<\/version>/g" "$POM_XML"
         done
-#        for JAVA_FILE in $(find . -name "*.java")
-#        do
-#            sed -i "s/javax.annotation/jakarta.annotation/g" "$POM_XML"
-#            sed -i "s/javax.inject/jakarta.inject/g" "$POM_XML"
-#            sed -i "s/javax.persistence/jakarta.persistence/g" "$POM_XML"
-#            sed -i "s/javax.xml.bind/jakarta.xml.bind/g" "$POM_XML"
-#        done
         if [ -n "$(git status --porcelain)" ]
         then
           git add .
