@@ -53,7 +53,7 @@ echo "-x EXECUTE      : $EXECUTE"
 PREV_TAG=""
 for TAG in $(git tag -l | grep "tags/$PREV_VERSION/")
 do
-	NEW_TAG="tags/$NEW_VERSION/$(echo $TAG | cut -c9-)"
+	NEW_TAG="tags/$NEW_VERSION/$(echo $TAG | cut -c12-)"
 
 	if [ -n "$PREV_TAG" ]
 	then
