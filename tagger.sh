@@ -50,13 +50,52 @@ echo "-v NEW_VERSION  : $NEW_VERSION"
 echo "-x EXECUTE      : $EXECUTE"
 
 
+update_pom_version() {
+  local file="$1"
+  local prev="$2"
+  local new="$3"
+
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' "s|<version>$prev</version>|<version>$new</version>|g" "$file"
+  else
+    sed -i "s|<version>$prev</version>|<version>$new</version>|g" "$file"
+  fi
+}
+
+update_poms_and_commit_if_necessary() {
+  local prev="$1"
+  local new="$2"
+  local exec="$3"
+
+  echo "update all poms to $new and commit if changed..."
+  if [ "$exec" = "true" ]
+  then
+    for POM_XML in $(find . -name "pom.xml")
+    do
+      update_pom_version "$POM_XML" "$prev" "$new"
+    done
+    if [ -n "$(git status --porcelain)" ]
+    then
+      git add .
+      git commit --amend --no-edit
+    fi
+  fi
+}
+
 PREV_TAG=""
 for TAG in $(git tag -l | grep "tags/$PREV_VERSION/")
 do
 	NEW_TAG="tags/$NEW_VERSION/$(echo $TAG | cut -c12-)"
 
-	if [ -n "$PREV_TAG" ]
+	if [ -z "$PREV_TAG" ]
 	then
+    echo "git reset --hard $PREV_VERSION"
+	  if [ "$EXECUTE" = "true" ]
+	  then
+  	  git reset --hard $PREV_VERSION
+    fi
+    update_poms_and_commit_if_necessary "$PREV_VERSION" "$NEW_VERSION" "$EXECUTE"
+  else
 	  for COMMIT in $(git log $PREV_TAG..$TAG --pretty=format:"%H" --reverse)
 	  do
 
@@ -72,27 +111,11 @@ do
         fi
       fi
 
-      if [ "$EXECUTE" = "true" ]
-      then
-        for POM_XML in $(find . -name "pom.xml")
-        do
-          if [[ "$OSTYPE" == "darwin"* ]]; then
-            sed -i '' "s|<version>$PREV_VERSION</version>|<version>$NEW_VERSION</version>|g" "$POM_XML"
-          else
-            sed -i "s|<version>$PREV_VERSION</version>|<version>$NEW_VERSION</version>|g" "$POM_XML"
-          fi
-        done
-        if [ -n "$(git status --porcelain)" ]
-        then
-          git add .
-          git commit --amend --no-edit
-        fi
-      fi
+      update_poms_and_commit_if_necessary "$PREV_VERSION" "$NEW_VERSION" "$EXECUTE"
     done
 	fi
 
   echo "git tag -f $NEW_TAG"
-
   if [ "$EXECUTE" = "true" ]
   then
 	  git tag -d $NEW_TAG >/dev/null 2>&1
