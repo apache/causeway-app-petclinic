@@ -67,7 +67,6 @@ update_poms_and_commit_if_necessary() {
   local new="$2"
   local exec="$3"
 
-  echo "update all poms to $new and commit if changed..."
   if [ "$exec" = "true" ]
   then
     for POM_XML in $(find . -name "pom.xml")
@@ -94,6 +93,7 @@ do
 	  then
   	  git reset --hard $PREV_VERSION
     fi
+    echo "update all poms to $new and commit if changed..."
     update_poms_and_commit_if_necessary "$PREV_VERSION" "$NEW_VERSION" "$EXECUTE"
   else
 	  for COMMIT in $(git log $PREV_TAG..$TAG --pretty=format:"%H" --reverse)
@@ -111,6 +111,7 @@ do
         fi
       fi
 
+      # this is probably a no-op because we do the update on the first tag.
       update_poms_and_commit_if_necessary "$PREV_VERSION" "$NEW_VERSION" "$EXECUTE"
     done
 	fi
