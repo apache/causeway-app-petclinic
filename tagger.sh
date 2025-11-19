@@ -109,6 +109,7 @@ do
             exit 1
         fi
       fi
+      update_poms_and_commit_if_necessary "$PREV_VERSION" "$NEW_VERSION" "$EXECUTE"
     done
 	fi
 
