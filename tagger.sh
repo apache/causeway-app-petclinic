@@ -1,15 +1,15 @@
 #!/bin/bash
 
 usage() {
-	echo "$(basename $0) -p previous_version -v new_version -x" >&2
+	echo "$(basename $0) -p previous_version -v new_version -y" >&2
 	echo "" >&2
 	echo "where:" >&2
 	echo "     -p previous version" >&2
 	echo "     -v new version" >&2
-	echo "     -x execute (otherwise, is a dry run)" >&2
+	echo "     -y execute (otherwise, is a dry run)" >&2
 	echo "" >&2
 	echo "eg:" >&2
-	echo "    $(basename $0) -p 3.4.0 -v 3.5.0 -x" >&2
+	echo "    $(basename $0) -p 3.4.0 -v 3.5.0 -y" >&2
 	echo "" >&2
 	exit 1
 }
@@ -18,7 +18,7 @@ PREV_VERSION=""
 NEW_VERSION=""
 EXECUTE=""
 
-while getopts ":p:v:x" opt; do
+while getopts ":p:v:y" opt; do
   case ${opt} in
     p)
       PREV_VERSION=$OPTARG
@@ -26,7 +26,7 @@ while getopts ":p:v:x" opt; do
     v)
       NEW_VERSION=$OPTARG
       ;;
-    x)
+    y)
       EXECUTE="true"
       ;;
     \? ) usage "Invalid option"
