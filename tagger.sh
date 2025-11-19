@@ -88,17 +88,16 @@ do
 
 	if [ -z "$PREV_TAG" ]
 	then
-    echo "git reset --hard $PREV_VERSION"
+    echo "git reset --hard $TAG"
 	  if [ "$EXECUTE" = "true" ]
 	  then
-  	  git reset --hard $PREV_VERSION
+  	  git reset --hard $TAG
     fi
-    echo "update all poms to $new and commit if changed..."
+    echo "  update all poms to $new and commit if changed..."
     update_poms_and_commit_if_necessary "$PREV_VERSION" "$NEW_VERSION" "$EXECUTE"
   else
 	  for COMMIT in $(git log $PREV_TAG..$TAG --pretty=format:"%H" --reverse)
 	  do
-
       echo "  git cherry-pick $COMMIT"
       if [ "$EXECUTE" = "true" ]
       then
@@ -110,9 +109,6 @@ do
             exit 1
         fi
       fi
-
-      # this is probably a no-op because we do the update on the first tag.
-      update_poms_and_commit_if_necessary "$PREV_VERSION" "$NEW_VERSION" "$EXECUTE"
     done
 	fi
 
