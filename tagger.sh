@@ -99,7 +99,7 @@ do
 	  for COMMIT in $(git log $PREV_TAG..$TAG --pretty=format:"%H" --reverse)
 	  do
 
-      echo "git cherry-pick $COMMIT"
+      echo "  git cherry-pick $COMMIT"
       if [ "$EXECUTE" = "true" ]
       then
         git cherry-pick $COMMIT
