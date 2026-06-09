@@ -52,7 +52,7 @@ causeway:
   viewer:
     common:
       application:
-        about: Simple App
+        about: PetClinic
         brand-logo-signin: images/apache-causeway/logo-banner-591x120.png
         brand-logo-header: images/apache-causeway/logo-65x48.png
         favicon-url: images/favicon.png

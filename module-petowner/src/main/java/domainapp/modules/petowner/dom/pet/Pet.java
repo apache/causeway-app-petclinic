@@ -28,6 +28,7 @@ import org.apache.causeway.applib.annotation.Title;
 import org.apache.causeway.applib.jaxb.PersistentEntityAdapter;
 import org.apache.causeway.persistence.jpa.applib.integration.CausewayEntityListener;
 
+import domainapp.modules.petowner.dom.petowner.PetOwnerRepository;
 import domainapp.modules.petowner.types.Notes;
 
 import lombok.AccessLevel;
@@ -49,7 +50,7 @@ import domainapp.modules.petowner.types.PetName;
 )
 @EntityListeners(CausewayEntityListener.class)
 @Named(PetOwnerModule.NAMESPACE + ".Pet")
-@DomainObject(entityChangePublishing = Publishing.ENABLED)
+@DomainObject(entityChangePublishing = Publishing.ENABLED, autoCompleteRepository = PetRepository.class, autoCompleteMethod = "findByNameContaining")
 @DomainObjectLayout()
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @XmlJavaTypeAdapter(PersistentEntityAdapter.class)

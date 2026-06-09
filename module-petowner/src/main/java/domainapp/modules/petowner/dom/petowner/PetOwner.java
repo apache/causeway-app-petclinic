@@ -29,6 +29,8 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.apache.causeway.extensions.commandlog.applib.spi.RefData;
+
 import org.springframework.lang.Nullable;
 
 import org.apache.causeway.applib.annotation.Action;
@@ -100,7 +102,7 @@ import domainapp.modules.petowner.value.EmailAddress;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @XmlJavaTypeAdapter(PersistentEntityAdapter.class)
 @ToString(onlyExplicitlyIncluded = true)
-public class PetOwner implements Comparable<PetOwner>, CalendarEventable {
+public class PetOwner implements Comparable<PetOwner>, CalendarEventable/*, RefData*/ {
 
     static final String NAMED_QUERY__FIND_BY_NAME_LIKE = "PetOwner.findByNameLike";
 

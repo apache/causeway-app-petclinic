@@ -71,7 +71,8 @@ public class CustomRolesAndUsers extends FixtureScript {
                 return Can.of(
                         causewayConfiguration.getExtensions().getSecman().getSeed().getRegularUser().getRoleName(), // built-in stuff
                         PetClinicSuperuserRole.ROLE_NAME,
-                        SimpleModuleSuperuserRole.ROLE_NAME
+                        SimpleModuleSuperuserRole.ROLE_NAME,
+                        "causeway-ext-commandLog"
                         );
             }
             @Inject CausewayConfiguration causewayConfiguration;
