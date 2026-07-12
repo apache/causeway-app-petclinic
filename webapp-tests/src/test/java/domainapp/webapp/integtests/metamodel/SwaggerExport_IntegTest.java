@@ -13,14 +13,14 @@ import org.apache.causeway.applib.services.registry.ServiceRegistry;
 import org.apache.causeway.applib.services.swagger.Format;
 import org.apache.causeway.applib.services.swagger.Visibility;
 import org.apache.causeway.testing.integtestsupport.applib.swagger.SwaggerExporter;
-import org.apache.causeway.viewer.restfulobjects.jaxrsresteasy.CausewayModuleViewerRestfulObjectsJaxrsResteasy;
+import org.apache.causeway.viewer.restfulobjects.viewer.CausewayModuleViewerRestfulObjectsViewer;
 
 import lombok.val;
 
 import domainapp.webapp.integtests.WebAppIntegTestAbstract;
 
 @Import({
-        CausewayModuleViewerRestfulObjectsJaxrsResteasy.class
+        CausewayModuleViewerRestfulObjectsViewer.class
 })
 @DirtiesContext
 class SwaggerExport_IntegTest extends WebAppIntegTestAbstract {
