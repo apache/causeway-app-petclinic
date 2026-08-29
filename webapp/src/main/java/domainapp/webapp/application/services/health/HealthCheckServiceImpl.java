@@ -8,23 +8,23 @@ import org.springframework.stereotype.Service;
 import org.apache.causeway.applib.services.health.Health;
 import org.apache.causeway.applib.services.health.HealthCheckService;
 
-import domainapp.modules.simple.dom.so.SimpleObjects;
+import domainapp.modules.petowner.dom.petowner.PetOwners;
 
 @Service
 @Named("domainapp.HealthCheckServiceImpl")
 public class HealthCheckServiceImpl implements HealthCheckService {
 
-    private final SimpleObjects simpleObjects;
+    private final PetOwners petOwners;
 
     @Inject
-    public HealthCheckServiceImpl(SimpleObjects simpleObjects) {
-        this.simpleObjects = simpleObjects;
+    public HealthCheckServiceImpl(PetOwners petOwners) {
+        this.petOwners = petOwners;
     }
 
     @Override
     public Health check() {
         try {
-            simpleObjects.ping();
+            petOwners.ping();
             return Health.ok();
         } catch (Exception ex) {
             return Health.error(ex);

@@ -14,15 +14,6 @@
                 <mb3:serviceAction objectType="petowner.PetOwners" id="listAll"/>
             </mb3:section>
         </mb3:menu>
-        <mb3:menu>
-            <mb3:named>Simple Objects</mb3:named>
-            <mb3:section>
-                <mb3:serviceAction objectType="simple.SimpleObjects" id="create"/>
-                <mb3:serviceAction objectType="simple.SimpleObjects" id="findByName"/>
-                <mb3:serviceAction objectType="simple.SimpleObjects" id="findByNameLike"/>
-                <mb3:serviceAction objectType="simple.SimpleObjects" id="listAll"/>
-            </mb3:section>
-        </mb3:menu>
         <mb3:menu unreferencedActions="true">
             <mb3:named>Other</mb3:named>
         </mb3:menu>

@@ -37,8 +37,6 @@ mvnd versions:update-parent -DparentVersion=[$VERSION,$VERSION] -Dskip.nightly
 mvnd versions:set -DnewVersion=$VERSION
 
 git add pom.xml
-git add module-simple-tests/pom.xml
-git add module-simple/pom.xml
 git add webapp-tests/pom.xml
 git add webapp/pom.xml
 

@@ -16,7 +16,6 @@ import org.apache.causeway.security.bypass.CausewayModuleSecurityBypass;
 import org.apache.causeway.testing.fixtures.applib.CausewayModuleTestingFixturesApplib;
 import org.apache.causeway.testing.integtestsupport.applib.CausewayIntegrationTestAbstract;
 
-import domainapp.modules.simple.SimpleModule;
 import domainapp.webapp.application.ApplicationModule;
 
 @SpringBootTest(
@@ -41,9 +40,7 @@ public abstract class WebAppIntegTestAbstract extends CausewayIntegrationTestAbs
         CausewayModuleCoreRuntimeServices.class,
         CausewayModuleSecurityBypass.class,
         CausewayModulePersistenceJpaEclipselink.class,
-        CausewayModuleTestingFixturesApplib.class,
-
-        SimpleModule.class
+        CausewayModuleTestingFixturesApplib.class
     })
     @PropertySources({
         @PropertySource(CausewayPresets.H2InMemory_withUniqueSchema),

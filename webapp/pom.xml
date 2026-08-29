@@ -86,13 +86,13 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>simpleapp-jpa-module-visit</artifactId>
-            <version>3.5.0</version>
+            <artifactId>simpleapp-jpa-module-petowner</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>simpleapp-jpa-module-simple</artifactId>
+            <artifactId>simpleapp-jpa-module-visit</artifactId>
+            <version>3.5.0</version>
         </dependency>
 
         <!-- causeway -->

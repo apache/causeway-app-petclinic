@@ -43,7 +43,7 @@ causeway:
           password: "pass"
           role-name: "causeway-ext-secman-admin"
           namespace-permissions:
-            sticky: "simple"
+            sticky: "petowner"
 #            additional: ...
         regular-user:
           role-name: "causeway-ext-secman-user"
@@ -104,7 +104,7 @@ causeway:
         fallback:
           username: sven
           roles:
-            - simple-superuser
+            - petclinic-superuser
             - foo
             - bar
 

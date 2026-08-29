@@ -1,5 +1,5 @@
 causeway:
   persistence:
     schema:
-      auto-create-schemas: "simple"
+      auto-create-schemas: "petowner,visit"
 

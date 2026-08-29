@@ -18,11 +18,11 @@ import org.apache.causeway.applib.services.clock.ClockService;
 
 import domainapp.modules.petowner.dom.petowner.PetOwner;
 import domainapp.modules.petowner.dom.petowner.PetOwners;
-import domainapp.modules.simple.SimpleModule;
+import domainapp.modules.petowner.PetOwnerModule;
 import domainapp.modules.visit.dom.visit.Visit;
 import domainapp.modules.visit.dom.visit.VisitRepository;
 
-@Named(SimpleModule.NAMESPACE + ".HomePageViewModel")
+@Named(PetOwnerModule.NAMESPACE + ".HomePageViewModel")
 @DomainObject(nature = Nature.VIEW_MODEL)
 @HomePage
 @DomainObjectLayout()

@@ -19,7 +19,6 @@ public class CustomRolesAndUsers extends FixtureScript {
     @Override
     protected void execute(ExecutionContext executionContext) {
         executionContext.executeChildren(this,
-                new SimpleModuleSuperuserRole(),
                 new PetClinicSuperuserRole(),
                 new SvenUser());
     }
@@ -42,24 +41,6 @@ public class CustomRolesAndUsers extends FixtureScript {
         }
     }
 
-    private static class SimpleModuleSuperuserRole extends AbstractRoleAndPermissionsFixtureScript {
-
-        public static final String ROLE_NAME = "simple-superuser";
-
-        public SimpleModuleSuperuserRole() {
-            super(ROLE_NAME, "Permission to use everything in the 'simple' module");
-        }
-
-        @Override
-        protected void execute(ExecutionContext executionContext) {
-            newPermissions(
-                    ApplicationPermissionRule.ALLOW,
-                    ApplicationPermissionMode.CHANGING,
-                    Can.of(ApplicationFeatureId.newNamespace("simple"))
-            );
-        }
-    }
-
     private static class SvenUser extends AbstractUserAndRolesFixtureScript {
         public SvenUser() {
             super(() -> "sven", () -> "pass", () -> AccountType.LOCAL, new RoleSupplier());
@@ -70,8 +51,7 @@ public class CustomRolesAndUsers extends FixtureScript {
             public Can<String> get() {
                 return Can.of(
                         causewayConfiguration.getExtensions().getSecman().getSeed().getRegularUser().getRoleName(), // built-in stuff
-                        PetClinicSuperuserRole.ROLE_NAME,
-                        SimpleModuleSuperuserRole.ROLE_NAME
+                        PetClinicSuperuserRole.ROLE_NAME
                         );
             }
             @Inject CausewayConfiguration causewayConfiguration;

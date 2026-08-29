@@ -21,8 +21,8 @@ import org.apache.causeway.applib.services.xactn.TransactionalProcessor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-import domainapp.modules.simple.dom.so.SimpleObject;
-import domainapp.modules.simple.dom.so.SimpleObjects;
+import domainapp.modules.petowner.dom.petowner.PetOwner;
+import domainapp.modules.petowner.dom.petowner.PetOwners;
 
 @Component
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
@@ -31,17 +31,17 @@ public class SampleJob implements Job {
 
     private final InteractionService interactionService;
     private final TransactionalProcessor transactionalProcessor;
-    private final SimpleObjects simpleObjects;
+    private final PetOwners petOwners;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        final List<SimpleObject> all = all();
-        log.info("{} objects in the database", all.size());
+        final List<PetOwner> all = all();
+        log.info("{} pet owners in the database", all.size());
     }
 
-    List<SimpleObject> all() {
-        return call("sven", simpleObjects::listAll)
-                .orElse(Collections.<SimpleObject>emptyList());
+    List<PetOwner> all() {
+        return call("sven", petOwners::listAll)
+                .orElse(Collections.<PetOwner>emptyList());
     }
 
     private <T> Optional<T> call(

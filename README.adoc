@@ -108,17 +108,13 @@ The following table explains the contents of each of the directories:
 |`module-petowner`
 |Holds the "petowner" module, consisting of the `PetOwner` entity and supporting services.
 
-|`module-simple`
-|Holds the "simple" module, consisting of the `SimpleObject` entity and supporting services.
+|`module-visit`
+|Holds the "visit" module, consisting of the `Visit` entity and supporting services.
 
 [TIP]
 ====
-Larger applications should consist of multiple modules; each such module can be copied from this starter module.
+Larger applications should consist of multiple modules, such as the pet owner and visit modules in this application.
 ====
-
-|`module-simple-tests`
-|Holds the unit- and integration tests for `module-simple`.
-
 
 |`webapp`
 |Holds the bootstrapping classes, along with application-level scoped services and home page.
@@ -130,7 +126,7 @@ The `pom.xml` also provides goals to run the app from the command line, or to be
 
 |====================
 
-It's more common for tests to reside within the same module, but we moved them into their own Maven modules because it makes them easier to be temporarily excluded, eg during initial explorations/prototyping.
+Module-specific tests reside within their module, while application-wide integration tests reside in `webapp-tests`.
 
 
 [#orm-support]
@@ -158,20 +154,6 @@ Change "XXX" to the value that `${spring-framework.version}` resolves to in the 
 -javaagent:lib/spring-instrument.jar
 ----
 
-
-
-//This version of the application uses DataNucleus as its ORM, which requires that any entities are "enhanced", a post-compile process.
-//
-//Normally this is done as part of a "mvn clean install", but the entities can also be enhanced explicity using:
-//
-//[source,bash]
-//----
-//mvn -pl module-simple datanucleus:enhance -o
-//----
-//
-//This is useful to know if the application or integration test fails to bootstrap, complaining of "unenhanced entities".
-//
-//TIP: You can also use `enhance-all.sh`
 
 
 == Testing
