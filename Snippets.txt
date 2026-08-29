@@ -1,35 +1,195 @@
-VisitRepository
+show around
+- object title
+- property
+- collection
+- action
 
-    List<Visit> findByPet(Pet pet);
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+add a property:
 
 PetOwner
 
-    @Column(length = 2, nullable = true, name = "midInitial")
-    @Getter @Setter @ToString.Include
-    @Property(editing = Editing.ENABLED)
-    @PropertyLayout(named = "Middle Initial")
-    private String midInitial;
+faxNumber
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 PetOwner.layout.xml
 
-    <cpt:property id="midInitial"/>
+    <cpt:property id="faxNumber"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 PetOwner.layout.xml
 
-    <cpt:property id="midInitial">
-        <cpt:named>XXXXX</cpt:named>
+    <cpt:property id="faxNumber">
+        <cpt:named>Facsimile (fax) Number</cpt:named>
+        <cpt:describedAs>The fax number of the pet owner.</cpt:describedAs>
     </cpt:property>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Create an action,
+
+updateContactDetails
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Modularity - mixins
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Modularity - subscribers
 
 PetOwner
 

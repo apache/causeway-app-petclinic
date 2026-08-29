@@ -17,4 +17,6 @@ public interface VisitRepository extends Repository<Visit, Integer> {
 
     @Query("select v from Visit v where v.pet.petOwner = :petOwner")
     List<Visit> findByPetOwner(PetOwner petOwner);
+
+    List<Visit> findByPet(Pet pet);
 }
