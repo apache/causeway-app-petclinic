@@ -1,0 +1,67 @@
+VisitRepository
+
+    List<Visit> findByPet(Pet pet);
+
+
+
+
+
+PetOwner
+
+    @Column(length = 2, nullable = true, name = "midInitial")
+    @Getter @Setter @ToString.Include
+    @Property(editing = Editing.ENABLED)
+    @PropertyLayout(named = "Middle Initial")
+    private String midInitial;
+
+
+
+
+PetOwner.layout.xml
+
+    <cpt:property id="midInitial"/>
+
+
+
+PetOwner.layout.xml
+
+    <cpt:property id="midInitial">
+        <cpt:named>XXXXX</cpt:named>
+    </cpt:property>
+
+
+
+PetOwner
+
+    public static class RemovePetOwner extends org.apache.causeway.applib.events.domain.ActionDomainEvent<PetOwner> {}
+
+    @Action(choicesFrom = "pets", domainEvent = RemovePetOwner.class)
+
+
+
+
+
+PetOwner_removePet_subscriber
+
+    package domainapp.modules.visit.subscriptions;
+
+    import java.util.List;
+    import domainapp.modules.petowner.dom.pet.Pet;
+    import jakarta.inject.Inject;
+    import org.springframework.context.event.EventListener;
+    import org.springframework.stereotype.Component;
+    import domainapp.modules.petowner.dom.petowner.PetOwner;
+    import domainapp.modules.visit.dom.visit.Visit;
+    import domainapp.modules.visit.dom.visit.VisitRepository;
+
+    @Component
+    public class PetOwner_removePet_subscriber {
+
+        @EventListener(PetOwner.RemovePetOwner.class)
+        void on(PetOwner.RemovePetOwner event) {
+            switch (event.getEventPhase()) {
+            }
+        }
+
+        @Inject VisitRepository visitRepository;
+    }
