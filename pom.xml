@@ -10,11 +10,11 @@
         <relativePath/>
     </parent>
 
-    <artifactId>simpleapp-jpa</artifactId>
+    <artifactId>petclinic-jpa</artifactId>
     <groupId>org.apache.causeway.starters</groupId>
     <version>3.5.0</version>
 
-    <name>SimpleApp (JPA) - Parent</name>
+    <name>Petclinic (JPA) - Parent</name>
 
     <packaging>pom</packaging>
 
@@ -42,22 +42,22 @@
             <!-- this project's own modules -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>simpleapp-jpa-module-petowner</artifactId>
+                <artifactId>petclinic-jpa-module-petowner</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>simpleapp-jpa-module-visit</artifactId>
+                <artifactId>petclinic-jpa-module-visit</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>simpleapp-jpa-webapp</artifactId>
+                <artifactId>petclinic-jpa-webapp</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>simpleapp-jpa-webapp-tests</artifactId>
+                <artifactId>petclinic-jpa-webapp-tests</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
                 <type>test-jar</type>

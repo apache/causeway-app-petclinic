@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>simpleapp-jpa</artifactId>
+        <artifactId>petclinic-jpa</artifactId>
         <groupId>org.apache.causeway.starters</groupId>
         <version>3.5.0</version>
     </parent>
 
-    <artifactId>simpleapp-jpa-webapp-tests</artifactId>
-    <name>SimpleApp (JPA) - Webapp (tests)</name>
+    <artifactId>petclinic-jpa-webapp-tests</artifactId>
+    <name>Petclinic (JPA) - Webapp (tests)</name>
 
     <description>
         Integ tests for entire app.
@@ -36,7 +36,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>simpleapp-jpa-webapp</artifactId>
+            <artifactId>petclinic-jpa-webapp</artifactId>
             <scope>test</scope>
         </dependency>
 

@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>simpleapp-jpa</artifactId>
+        <artifactId>petclinic-jpa</artifactId>
         <groupId>org.apache.causeway.starters</groupId>
         <version>3.5.0</version>
     </parent>
 
-    <artifactId>simpleapp-jpa-module-petowner</artifactId>
-    <name>SimpleApp (JPA) - PetOwner Module</name>
+    <artifactId>petclinic-jpa-module-petowner</artifactId>
+    <name>Petclinic (JPA) - PetOwner Module</name>
 
     <build>
         <resources>

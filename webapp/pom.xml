@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>simpleapp-jpa</artifactId>
+        <artifactId>petclinic-jpa</artifactId>
         <groupId>org.apache.causeway.starters</groupId>
         <version>3.5.0</version>
     </parent>
 
-    <artifactId>simpleapp-jpa-webapp</artifactId>
-    <name>SimpleApp (JPA) - Webapp</name>
+    <artifactId>petclinic-jpa-webapp</artifactId>
+    <name>Petclinic (JPA) - Webapp</name>
 
     <description>
     	Assembles and runs both the Wicket viewer and the Restfulobjects viewer
@@ -86,12 +86,12 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>simpleapp-jpa-module-petowner</artifactId>
+            <artifactId>petclinic-jpa-module-petowner</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>simpleapp-jpa-module-visit</artifactId>
+            <artifactId>petclinic-jpa-module-visit</artifactId>
             <version>3.5.0</version>
         </dependency>
 
